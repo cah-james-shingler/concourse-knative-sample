@@ -1,0 +1,14 @@
+---
+resources:
+- name: knative-test
+  type: git
+  source: {uri: "https://github.com/ddadlani/knative-test"}
+
+jobs:
+- name: unit
+  plan:
+  - get: knative-test
+    trigger: true
+  - task: test
+    file: knative-test/ci/test.yml
+
