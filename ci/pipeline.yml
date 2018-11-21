@@ -10,5 +10,6 @@ jobs:
   - get: knative-test
     trigger: true
   - task: test
-    file: knative-test/ci/test.yml
+    file: knative-test/ci/tasks/test.yml
+    input_mapping: {knative-app: knative-test}
 
