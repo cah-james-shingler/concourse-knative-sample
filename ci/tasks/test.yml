@@ -12,6 +12,8 @@ image_resource:
 inputs:
 - name: knative-app
 
+params:
+  CONFIG: CONFIG
 
 run:
   path: knative-app/ci/tasks/test.sh
