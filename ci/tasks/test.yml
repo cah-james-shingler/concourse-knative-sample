@@ -14,4 +14,4 @@ inputs:
 
 
 run:
-  path: ci/tasks/test.sh
+  path: knative-app/ci/tasks/test.sh
