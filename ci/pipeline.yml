@@ -2,6 +2,7 @@
 resources:
 - name: knative-test
   type: git
+  check_every: 10s
   source: {uri: "https://github.com/ddadlani/knative-test"}
 
 jobs:
@@ -14,5 +15,7 @@ jobs:
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
+      PROJECT_NAME: ((project))
+      ZONE: ((zone))
     input_mapping: {knative-app: knative-test}
 
