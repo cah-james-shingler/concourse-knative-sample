@@ -12,6 +12,6 @@ jobs:
   - task: test
     file: knative-test/ci/tasks/test.yml
     params:
-      CONFIG: ((kube-config))
+      CONFIG: ((key))
     input_mapping: {knative-app: knative-test}
 
