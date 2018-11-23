@@ -5,7 +5,7 @@ echo $CONFIG > key.json
 
 gcloud auth activate-service-account --key-file=key.json
 
-gcloud container clusters knative-test --zone=us-east1-b
+gcloud container clusters $CLUSTER_NAME --zone=us-east1-b
 
 kubectl version
 

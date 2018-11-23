@@ -13,6 +13,7 @@ inputs:
 
 params:
   CONFIG: CONFIG
+  CLUSTER_NAME: CLUSTER_NAME
 
 run:
   path: knative-app/ci/tasks/test.sh

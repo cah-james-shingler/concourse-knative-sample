@@ -13,5 +13,6 @@ jobs:
     file: knative-test/ci/tasks/test.yml
     params:
       CONFIG: ((key))
+      CLUSTER_NAME: ((cluster))
     input_mapping: {knative-app: knative-test}
 
