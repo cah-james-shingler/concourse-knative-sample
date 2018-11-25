@@ -2,22 +2,16 @@
 platform: linux
 
 image_resource:
-  type: docker-image
+  type: registry-image
   source:
     repository: google/cloud-sdk
-    tag: slim
-    # username: ((docker-username))
-    # password: ((docker-password))
+    tag: latest
 
 
 inputs:
   - name: knative-app
 
 params:
-  CONFIG:
-  CLUSTER_NAME:
-  PROJECT_NAME:
-  ZONE:
 
 run:
   path: knative-app/ci/tasks/test.sh

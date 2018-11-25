@@ -8,7 +8,7 @@ gcloud config set project $PROJECT_NAME
 
 gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
 
-apt install kubectl
-
 kubectl version
+
+kubectl apply -f knative-app/build-test-image.yaml
 

@@ -1,0 +1,11 @@
+---
+apiVersion: build.knative.dev/v1alpha1
+kind: Build
+metadata:
+  name: test-build
+spec:
+  steps:
+  - name: hello
+    image: ddadlani/helloworld-go
+    command: ["go"]
+    args: ['test']

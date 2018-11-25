@@ -4,9 +4,20 @@ resources:
   type: git
   check_every: 10s
   source: {uri: "https://github.com/ddadlani/knative-test"}
+- name: helloworld-go
+  type: git
+  check_every: 10s
+  source: {uri: "https://github.com/ddadlani/helloworld-go"}
 
 jobs:
 - name: unit
+  plan:
+  - get: knative-test
+  - get: helloworld-go
+    trigger: true
+  - task: run-tests
+    file: knative-test/ci/tasks/run-tests.yml
+- name: kubectl
   plan:
   - get: knative-test
     trigger: true
