@@ -25,4 +25,4 @@ spec:
     name: kaniko
     arguments:
     - name: IMAGE
-      value: us.gcr.io/my-project/my-app
+      value: docker.io/ddadlani/helloworld-go

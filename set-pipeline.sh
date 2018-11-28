@@ -2,8 +2,8 @@
 
 lpass sync
 
-fly -t dev sp -p knative -c ci/pipeline.yml \
-  -v "key=$(lpass show --notes Cluster Key)" \
+fly -t wings sp -p knative -c ci/pipeline.yml \
+  -v "key=$(lpass show --notes 'Cluster Key')" \
   -v "cluster=knative-test" \
   -v "project=lively-sentry-221201" \
   -v "zone=us-east1-b" \

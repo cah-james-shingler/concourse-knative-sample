@@ -17,16 +17,40 @@ jobs:
     trigger: true
   - task: run-tests
     file: knative-test/ci/tasks/run-tests.yml
-- name: kubectl
+
+- name: build-image
   plan:
   - get: knative-test
     trigger: true
-  - task: test
-    file: knative-test/ci/tasks/test.yml
+  - get: helloworld-go
+    trigger: true
+  - task: run-kaniko
+    file: knative-test/ci/tasks/run-kaniko-build.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
-    input_mapping: {knative-app: knative-test}
+    input_mapping:
+      knative-app: knative-test
+      app: helloworld-go
+  # - task: get-build-status
+  #   file: knative-test/ci/tasks/get-build-status.yml
+  #   params:
+  #     CONFIG: ((key))
+  #     CLUSTER_NAME: ((cluster))
+  #     PROJECT_NAME: ((project))
+  #     ZONE: ((zone))
+
+# - name: kubectl
+#   plan:
+#   - get: knative-test
+#   - task: test
+#     file: knative-test/ci/tasks/test.yml
+#     params:
+#       CONFIG: ((key))
+#       CLUSTER_NAME: ((cluster))
+#       PROJECT_NAME: ((project))
+#       ZONE: ((zone))
+#     input_mapping: {knative-app: knative-test}
 
