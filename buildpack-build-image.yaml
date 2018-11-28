@@ -2,15 +2,17 @@
 apiVersion: build.knative.dev/v1alpha1
 kind: Build
 metadata:
-  name: kaniko-build
+  name: buildpack-build
 spec:
   serviceAccountName: builder
   source:
     git:
-      url: https://github.com/ddadlani/knative-test
+      url: https://github.com/cloudfoundry/go-buildpack
       revision: master
   template:
-    name: kaniko
+    name: buildpack
     arguments:
       - name: IMAGE
         value: docker.io/ddadlani/helloworld-go
+      - name: DIRECTORY
+        value: /fixtures/go-app/

@@ -15,8 +15,8 @@ jobs:
   - get: knative-test
   - get: helloworld-go
     trigger: true
-  - task: run-tests
-    file: knative-test/ci/tasks/run-tests.yml
+  - task: test-unit
+    file: knative-test/ci/tasks/test-unit.yml
 
 - name: build-image
   plan:
@@ -24,8 +24,8 @@ jobs:
     trigger: true
   - get: helloworld-go
     trigger: true
-  - task: run-kaniko
-    file: knative-test/ci/tasks/run-kaniko-build.yml
+  - task: build-image
+    file: knative-test/ci/tasks/build-kaniko-image.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
