@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: google/cloud-sdk
-    tag: slim
+    repository: ddadlani/kubectl
+    tag: latest
 
 inputs:
   - name: knative-app
@@ -18,4 +18,4 @@ params:
   ZONE:
 
 run:
-  path: knative-app/ci/tasks/run-kaniko-build.sh
+  path: knative-app/ci/tasks/build-kaniko-image.sh

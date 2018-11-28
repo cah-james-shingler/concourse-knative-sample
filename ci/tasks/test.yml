@@ -6,8 +6,6 @@ image_resource:
   source:
     repository: google/cloud-sdk
     tag: slim
-    # username: ((docker-username))
-    # password: ((docker-password))
 
 
 inputs:

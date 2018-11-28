@@ -24,6 +24,7 @@ jobs:
     trigger: true
   - get: helloworld-go
     trigger: true
+    passed: [unit]
   - task: build-image
     file: knative-test/ci/tasks/build-kaniko-image.yml
     params:
