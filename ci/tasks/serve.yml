@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: google/cloud-sdk
+    tag: latest
+
+
+inputs:
+  - name: knative-app
+
+params:
+
+run:
+  path: knative-app/ci/tasks/serve.sh

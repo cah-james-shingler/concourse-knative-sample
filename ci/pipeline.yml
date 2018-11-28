@@ -53,4 +53,10 @@ jobs:
 #       PROJECT_NAME: ((project))
 #       ZONE: ((zone))
 #     input_mapping: {knative-app: knative-test}
+- name: serve
+  plan:
+  - get: knative-test
+    passed: [unit, build-image]
+  - task: serve-hello
+    file: knative-test/ci/tasks/serve.yml
 
