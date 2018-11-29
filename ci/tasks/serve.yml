@@ -2,9 +2,9 @@
 platform: linux
 
 image_resource:
-  type: registry-image
+  type: docker-image
   source:
-    repository: google/cloud-sdk
+    repository: ddadlani/kubectl
     tag: latest
 
 
