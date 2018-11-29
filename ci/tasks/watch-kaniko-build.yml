@@ -7,9 +7,9 @@ image_resource:
     repository: ddadlani/kubectl
     tag: latest
 
+
 inputs:
   - name: knative-test
-  - name: app
 
 params:
   CONFIG:
@@ -18,4 +18,4 @@ params:
   ZONE:
 
 run:
-  path: knative-app/ci/tasks/build-kaniko-image.sh
+  path: knative-app/ci/tasks/watch-kaniko-build.sh

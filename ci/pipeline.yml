@@ -33,15 +33,14 @@ jobs:
       PROJECT_NAME: ((project))
       ZONE: ((zone))
     input_mapping:
-      knative-app: knative-test
       app: helloworld-go
-  # - task: get-build-status
-  #   file: knative-test/ci/tasks/get-build-status.yml
-  #   params:
-  #     CONFIG: ((key))
-  #     CLUSTER_NAME: ((cluster))
-  #     PROJECT_NAME: ((project))
-  #     ZONE: ((zone))
+  - task: watch-kaniko-build
+    file: knative-test/ci/tasks/watch-kaniko-build.yml
+    params:
+      CONFIG: ((key))
+      CLUSTER_NAME: ((cluster))
+      PROJECT_NAME: ((project))
+      ZONE: ((zone))
 
 # - name: kubectl
 #   plan:
