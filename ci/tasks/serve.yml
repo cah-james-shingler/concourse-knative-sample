@@ -10,7 +10,7 @@ image_resource:
 
 inputs:
   - name: knative-test
-  - name: helloworld-go
+  - name: app
 
 params:
   CONFIG:

@@ -4,7 +4,7 @@ set +x
 
 echo $CONFIG > key.json
 
-pushd helloworld-go
+pushd app
   # Build the container on your local machine
   docker build -t ddadlani/helloworld-go .
 
