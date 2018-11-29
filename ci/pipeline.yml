@@ -64,4 +64,8 @@ jobs:
     trigger: true
   - task: serve-hello
     file: knative-test/ci/tasks/serve.yml
-
+    params:
+      CONFIG: ((key))
+      CLUSTER_NAME: ((cluster))
+      PROJECT_NAME: ((project))
+      ZONE: ((zone))
