@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set +x
+
 echo $CONFIG > key.json
 
 pushd helloworld-go
