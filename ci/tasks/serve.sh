@@ -16,5 +16,5 @@ docker push ((username))/helloworld-go
 
 kubectl version
 
-kubectl apply -f knative-app/serve.yaml
+kubectl apply -f knative-test/serve.yaml
 

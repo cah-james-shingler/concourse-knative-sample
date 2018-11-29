@@ -15,4 +15,4 @@ inputs:
 params:
 
 run:
-  path: knative-app/ci/tasks/serve.sh
+  path: knative-test/ci/tasks/serve.sh
