@@ -8,6 +8,9 @@ resources:
   type: git
   check_every: 10s
   source: {uri: "https://github.com/ddadlani/helloworld-go"}
+- name: kubectl
+  type: docker-image
+  source: {repository: ddadlani/kubectl}
 
 jobs:
 - name: unit
@@ -23,9 +26,11 @@ jobs:
   - get: knative-test
     trigger: true
   - get: helloworld-go
-    trigger: true
     passed: [unit]
+    trigger: true
+  - get: kubectl
   - task: build-image
+    image: kubectl
     file: knative-test/ci/tasks/build-kaniko-image.yml
     params:
       CONFIG: ((key))
@@ -35,12 +40,23 @@ jobs:
     input_mapping:
       app: helloworld-go
   - task: watch-kaniko-build
+    image: kubectl
     file: knative-test/ci/tasks/watch-kaniko-build.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+  - task: delete-build
+    image: kubectl
+    config:
+      platform: linux
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+         kubectl delete build kaniko-build
 
 # - name: kubectl
 #   plan:

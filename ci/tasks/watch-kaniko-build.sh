@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source knative-test/ci/tasks/setup.sh
+. knative-test/ci/tasks/setup.sh
+
+setup_kubectl
 
 kubectl get build kaniko-build -ojson -w
 
