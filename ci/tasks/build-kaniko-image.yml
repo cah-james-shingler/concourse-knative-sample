@@ -18,4 +18,4 @@ params:
   ZONE:
 
 run:
-  path: knative-app/ci/tasks/build-kaniko-image.sh
+  path: knative-test/ci/tasks/build-kaniko-image.sh
