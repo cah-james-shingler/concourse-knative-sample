@@ -47,6 +47,7 @@ jobs:
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+    timeout: 10m
   - task: delete-build
     image: kubectl
     config:
