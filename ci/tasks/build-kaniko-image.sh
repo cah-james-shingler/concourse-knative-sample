@@ -21,8 +21,8 @@ for i in `seq 0 2`
 do
   status=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -ojson | jq -r '.status.stepStates[$($i+1)]' | jq 'keys[]')
   while [ status == "waiting" ]; do
-    echo "Waiting for container ${containerNames[$i]}
-    sleep(2)
+    echo "Waiting for container ${containerNames[$i]}"
+    sleep 5
   done
   kubectl logs -f $PODNAME -c ${containerNames[$i]}
 done
