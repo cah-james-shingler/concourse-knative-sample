@@ -15,4 +15,4 @@ inputs:
 params:
 
 run:
-  path: knative-test/ci/tasks/run-tests.sh
+  path: knative-test/ci/tasks/test-unit.sh
