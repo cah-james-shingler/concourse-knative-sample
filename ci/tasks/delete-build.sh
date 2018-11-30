@@ -4,4 +4,6 @@
 
 setup_kubectl
 
-kubectl delete build kaniko-build
+echo "Deleting build $BUILD_NAME"
+
+kubectl delete build $BUILD_NAME

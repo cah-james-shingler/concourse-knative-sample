@@ -9,6 +9,7 @@ params:
   CLUSTER_NAME:
   PROJECT_NAME:
   ZONE:
+  BUILD_NAME:
 
 run:
   path: knative-test/ci/tasks/delete-build.sh

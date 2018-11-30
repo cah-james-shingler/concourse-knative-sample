@@ -35,6 +35,15 @@ jobs:
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+  - task: delete-build
+    image: kubectl
+    file: knative-test/ci/tasks/delete-build.yml
+    params:
+      CONFIG: ((key))
+      CLUSTER_NAME: ((cluster))
+      PROJECT_NAME: ((project))
+      ZONE: ((zone))
+      BUILD_NAME: go-unit-test
 
 - name: build-image
   serial: true
@@ -65,6 +74,7 @@ jobs:
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+      BUILD_NAME: kaniko-build
 
 - name: serve
   serial: true
