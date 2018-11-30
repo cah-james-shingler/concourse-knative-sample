@@ -60,8 +60,10 @@ jobs:
 - name: serve
   plan:
   - get: knative-test
+  - get: helloworld-go
     passed: [unit]
     trigger: true
+  - get: kubectl
   - task: serve-hello
     file: knative-test/ci/tasks/serve.yml
     params:
