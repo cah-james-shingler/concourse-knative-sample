@@ -25,8 +25,10 @@ jobs:
   plan:
   - get: knative-test
     trigger: true
+  - get: kubectl
   - task: knative-test-unit
     file: knative-test/ci/tasks/knative-unit.yml
+    image: kubectl
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
