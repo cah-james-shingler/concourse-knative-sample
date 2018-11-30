@@ -11,7 +11,7 @@ gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
 
 echo "Creating new test build"
 # kubectl apply -f knative-test/go-test-buildtemplate.yaml
-kubectl apply -f knative-test/go-run-test.yaml
+kubectl apply -f knative-test/$BUILD_NAME.yaml
 
 sleep 5
 
@@ -19,12 +19,10 @@ PODNAME=$(kubectl get build go-unit-test -ojsonpath='{.status.cluster.podName}')
 
 echo "Build pod name: $PODNAME"
 
-# containerNames=(build-step-credential-initializer build-step-git-source build-step-go-unit-test)
+containerNames=($(kubectl get po -l build.knative.dev/buildName=$BUILD_NAME -ojson | jq -r '.items[0].status.initContainerStatuses | values[].name'))
 
-containerNames=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -ojson | jq -r '.items[0].status.initContainerStatuses[] | values as $v | $v.name')
-
-for i in "${!containerNames[@]}"; do
-  echo "container name: ${containerNames[i]}"
+for i in ${!containerNames[@]}; do
+  echo "container ${containerNames[i]}:"
   status=$(kubectl get build go-unit-test -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
     echo "Waiting for ${containerNames[i]}";
