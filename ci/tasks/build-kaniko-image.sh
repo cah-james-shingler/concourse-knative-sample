@@ -18,6 +18,8 @@ echo "Build pod name: $PODNAME"
 
 containerNames=(build-step-credential-initializer build-step-git-source build-step-build-and-push)
 
+sleep 5
+
 for i in "${!containerNames[@]}"; do
   status=$(kubectl get build kaniko-build -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
