@@ -22,7 +22,6 @@ echo "Build pod name: $PODNAME"
 containerNames=(build-step-credential-initializer build-step-git-source build-step-go-unit-test)
 
 for i in "${!containerNames[@]}"; do
-  echo $i;
   status=$(kubectl get build go-unit-test -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
     echo "Waiting for ${containerNames[i]}";
@@ -33,7 +32,7 @@ done
 
 pod_status="Pending"
 
-while [ pod_status == "Pending" ]; do
+while [ pod_status == "Pending" ] || [ pod_status == "Running" ] ; do
   pod_status=$(kubectl get po -l build.knative.dev/buildName=go-unit-test -o=jsonpath='{..status.phase}')
   sleep 2
 done
@@ -42,7 +41,7 @@ if [ $pod_status == "Succeeded" ]; then
   echo "Build $pod_status."
   exit 0
 else
-  >&2 echo "Build $status."
+  >&2 echo "Build $pod_status."
   exit 1
 fi
 

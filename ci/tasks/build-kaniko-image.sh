@@ -19,7 +19,6 @@ echo "Build pod name: $PODNAME"
 containerNames=(build-step-credential-initializer build-step-git-source build-step-build-and-push)
 
 for i in "${!containerNames[@]}"; do
-  echo $i;
   status=$(kubectl get build kaniko-build -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
     echo "Waiting for ${containerNames[i]}";
@@ -28,13 +27,17 @@ for i in "${!containerNames[@]}"; do
   kubectl logs -f $PODNAME -c ${containerNames[i]}
 done
 
-status=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -o=jsonpath='{..status.phase}')
+pod_status="Pending"
 
-if [ $status == "Succeeded" ]; then
-  echo "Build $status."
+while [ pod_status == "Pending" ] || [ pod_status == "Running" ] ; do
+  pod_status=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -o=jsonpath='{..status.phase}')
+  sleep 2
+done
+
+if [ $pod_status == "Succeeded" ]; then
+  echo "Build $pod_status."
   exit 0
 else
-  >&2 echo "Build $status."
+  >&2 echo "Build $pod_status."
   exit 1
 fi
-
