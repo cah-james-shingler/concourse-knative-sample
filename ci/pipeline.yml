@@ -16,6 +16,7 @@ jobs:
 - name: unit
   plan:
   - get: knative-test
+    trigger: true
   - get: helloworld-go
     trigger: true
   - task: test-unit
@@ -40,6 +41,7 @@ jobs:
   plan:
   - get: knative-test
     trigger: true
+    passed: [unit, knative-unit]
   - get: helloworld-go
     passed: [unit]
     trigger: true
@@ -55,26 +57,23 @@ jobs:
     input_mapping:
       app: helloworld-go
     timeout: 10m
-    on_success:
-      task: delete-build
-      image: kubectl
-      file: knative-test/ci/tasks/delete-build.yml
-      params:
-        CONFIG: ((key))
-        CLUSTER_NAME: ((cluster))
-        PROJECT_NAME: ((project))
-        ZONE: ((zone))
-  # - task: delete-build
-  #   image: kubectl
-  #   file: knative-test/ci/tasks/delete-build.yml
+  - task: delete-build
+    image: kubectl
+    file: knative-test/ci/tasks/delete-build.yml
+    params:
+      CONFIG: ((key))
+      CLUSTER_NAME: ((cluster))
+      PROJECT_NAME: ((project))
+      ZONE: ((zone))
 
 - name: serve
   serial: true
   plan:
   - get: knative-test
+    passed: [build-image]
     trigger: true
   - get: helloworld-go
-    passed: [unit]
+    passed: [build-image]
     trigger: true
   - get: kubectl
   - task: serve-hello
