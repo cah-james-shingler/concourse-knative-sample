@@ -1,0 +1,14 @@
+---
+apiVersion: build.knative.dev/v1alpha1
+kind: Build
+metadata:
+  name: go-unit-test
+  labels:
+    expect: succeeded
+spec:
+  source:
+    git:
+      url: https://github.com/ddadlani/helloworld-go
+      revision: master
+  template:
+    name: go-unit-test

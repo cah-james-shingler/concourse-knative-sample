@@ -1,0 +1,10 @@
+---
+apiVersion: build.knative.dev/v1alpha1
+kind: BuildTemplate
+metadata:
+  name: go-unit-test
+spec:
+  steps:
+  - name: go-unit-test
+    image: golang:latest
+    args: ["go", "test"]

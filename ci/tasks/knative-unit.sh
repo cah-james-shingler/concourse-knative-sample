@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "Setting up kubectl to point to cluster '$CLUSTER_NAME'"
+echo $CONFIG > key.json
+
+gcloud auth activate-service-account --key-file=key.json --quiet
+
+gcloud config set project $PROJECT_NAME
+
+gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
+
+echo "Creating new test build"
+kubectl apply -f knative-test/go-test-buildtemplate.yaml
+kubectl apply -f knative-test/go-run-test.yaml
+
+PODNAME=$(kubectl get build go-unit-test -ojsonpath='{.status.cluster.podName}')
+BUILDNAME=go-unit-test
+
+echo "Build pod name: $PODNAME"
+
+containerNames=(build-step-credential-initializer build-step-git-source build-step-go-unit-test)
+
+for i in "${!containerNames[@]}"; do
+  echo $i;
+  status=$(kubectl get build go-unit-test -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
+  while [ status == "waiting" ]; do
+    echo "Waiting for ${containerNames[i]}";
+    sleep 5
+  done
+  kubectl logs -f $PODNAME -c ${containerNames[i]}
+done
+
+status=$(kubectl get po -l build.knative.dev/buildName=$BUILDNAME -o=jsonpath='{..status.phase}')
+
+if [ $status == "Succeeded" ]; then
+  echo "Build $status."
+  exit 0
+else
+  >&2 echo "Build $status."
+  exit 1
+fi
+

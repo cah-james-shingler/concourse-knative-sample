@@ -3,7 +3,6 @@ platform: linux
 
 inputs:
   - name: knative-test
-  - name: app
 
 params:
   CONFIG:
@@ -12,4 +11,4 @@ params:
   ZONE:
 
 run:
-  path: knative-test/ci/tasks/build-kaniko-image.sh
+  path: knative-test/ci/tasks/knative-test.sh
