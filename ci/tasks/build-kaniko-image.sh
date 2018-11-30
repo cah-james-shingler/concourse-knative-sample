@@ -16,9 +16,9 @@ PODNAME=$(kubectl get build kaniko-build -ojsonpath='{.status.cluster.podName}')
 
 echo "Build pod name: $PODNAME"
 
-kubectl logs -p $PODNAME -f
-# kubectl logs -f -p $PODNAME -c build-step-git-source
-# kubectl logs -f -p $PODNAME -c build-step-build-and-push
+kubectl logs -f $PODNAME -c build-step-credential-initializer
+kubectl logs -f $PODNAME -c build-step-git-source
+kubectl logs -f $PODNAME -c build-step-build-and-push
 
 status=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -o=jsonpath='{..status.phase}')
 
