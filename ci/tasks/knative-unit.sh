@@ -15,7 +15,7 @@ kubectl apply -f knative-test/$BUILD_NAME.yaml
 
 sleep 5
 
-PODNAME=$(kubectl get build go-unit-test -ojsonpath='{.status.cluster.podName}')
+PODNAME=$(kubectl get build $BUILD_NAME -ojsonpath='{.status.cluster.podName}')
 
 echo "Build pod name: $PODNAME"
 
