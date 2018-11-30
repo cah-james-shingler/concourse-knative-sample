@@ -60,6 +60,7 @@ jobs:
 - name: serve
   plan:
   - get: knative-test
+    trigger: true
   - get: helloworld-go
     passed: [unit]
     trigger: true

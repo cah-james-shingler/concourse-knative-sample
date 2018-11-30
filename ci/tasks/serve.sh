@@ -17,4 +17,4 @@ popd
 
 kubectl version
 
-kubectl apply -f knative-test/serve.yaml
+kubectl apply -f knative-test/service.yaml
