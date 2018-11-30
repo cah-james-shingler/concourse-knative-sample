@@ -38,8 +38,8 @@ while [ pod_status == "Pending" ]; do
   sleep 2
 done
 
-if [ $status == "Succeeded" ]; then
-  echo "Build $status."
+if [ $pod_status == "Succeeded" ]; then
+  echo "Build $pod_status."
   exit 0
 else
   >&2 echo "Build $status."
