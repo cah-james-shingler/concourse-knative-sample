@@ -10,7 +10,6 @@ gcloud config set project $PROJECT_NAME
 gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
 
 echo "Creating new test build"
-# kubectl apply -f knative-test/go-test-buildtemplate.yaml
 kubectl apply -f knative-test/$BUILD_NAME.yaml
 
 sleep 5
@@ -23,7 +22,7 @@ containerNames=($(kubectl get po -l build.knative.dev/buildName=$BUILD_NAME -ojs
 
 for i in ${!containerNames[@]}; do
   echo "container ${containerNames[i]}:"
-  status=$(kubectl get build go-unit-test -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
+  status=$(kubectl get build $BUILD_NAME -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
     echo "Waiting for ${containerNames[i]}";
     sleep 5
@@ -34,7 +33,7 @@ done
 pod_status="Pending"
 
 while [[ "$pod_status" == "Pending" || "$pod_status" == "Running" ]] ; do
-  pod_status=$(kubectl get po -l build.knative.dev/buildName=go-unit-test -o=jsonpath='{..status.phase}')
+  pod_status=$(kubectl get po -l build.knative.dev/buildName=$BUILD_NAME -o=jsonpath='{..status.phase}')
   sleep 2
 done
 

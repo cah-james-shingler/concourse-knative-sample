@@ -35,6 +35,7 @@ jobs:
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+      BUILD_NAME: go-unit-test
   - task: delete-build
     image: kubectl
     file: knative-test/ci/tasks/delete-build.yml
@@ -57,12 +58,13 @@ jobs:
   - get: kubectl
   - task: build-image
     image: kubectl
-    file: knative-test/ci/tasks/build-kaniko-image.yml
+    file: knative-test/ci/tasks/knative-unit.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+      BUILD_NAME: kaniko-build
     input_mapping:
       app: helloworld-go
     timeout: 10m
@@ -74,7 +76,6 @@ jobs:
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
-      BUILD_NAME: kaniko-build
 
 - name: serve
   serial: true
