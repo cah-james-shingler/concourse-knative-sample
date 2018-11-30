@@ -16,6 +16,11 @@ PODNAME=$(kubectl get build kaniko-build -ojsonpath='{.status.cluster.podName}')
 
 echo "Build pod name: $PODNAME"
 
+status=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -o=jsonpath='{..status.phase}')
+until [ $status != "Pending" ]; do
+  echo "Waiting for pod to be running"
+  status=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -o=jsonpath='{..status.phase}')
+done
 kubectl logs -f $PODNAME -c build-step-credential-initializer
 kubectl logs -f $PODNAME -c build-step-git-source
 kubectl logs -f $PODNAME -c build-step-build-and-push
