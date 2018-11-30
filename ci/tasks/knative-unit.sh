@@ -31,9 +31,12 @@ for i in "${!containerNames[@]}"; do
   kubectl logs -f $PODNAME -c ${containerNames[i]}
 done
 
-sleep 5
+pod_status="Pending"
 
-status=$(kubectl get po -l build.knative.dev/buildName=go-unit-test -o=jsonpath='{..status.phase}')
+while [ pod_status == "Pending" ]; do
+  pod_status=$(kubectl get po -l build.knative.dev/buildName=go-unit-test -o=jsonpath='{..status.phase}')
+  sleep 2
+done
 
 if [ $status == "Succeeded" ]; then
   echo "Build $status."
