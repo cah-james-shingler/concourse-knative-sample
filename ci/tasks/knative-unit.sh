@@ -10,8 +10,10 @@ gcloud config set project $PROJECT_NAME
 gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
 
 echo "Creating new test build"
-kubectl apply -f knative-test/go-test-buildtemplate.yaml
+# kubectl apply -f knative-test/go-test-buildtemplate.yaml
 kubectl apply -f knative-test/go-run-test.yaml
+
+sleep 5
 
 PODNAME=$(kubectl get build go-unit-test -ojsonpath='{.status.cluster.podName}')
 
