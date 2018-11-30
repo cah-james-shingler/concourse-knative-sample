@@ -11,4 +11,4 @@ params:
   ZONE:
 
 run:
-  path: knative-test/ci/tasks/knative-test.sh
+  path: knative-test/ci/tasks/knative-unit.sh
