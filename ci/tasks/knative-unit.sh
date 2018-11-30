@@ -19,9 +19,12 @@ PODNAME=$(kubectl get build go-unit-test -ojsonpath='{.status.cluster.podName}')
 
 echo "Build pod name: $PODNAME"
 
-containerNames=(build-step-credential-initializer build-step-git-source build-step-go-unit-test)
+# containerNames=(build-step-credential-initializer build-step-git-source build-step-go-unit-test)
+
+containerNames=$(kubectl get po -l build.knative.dev/buildName=kaniko-build -ojson | jq -r '.items[0].status.initContainerStatuses[] | values as $v | $v.name')
 
 for i in "${!containerNames[@]}"; do
+  echo "container name: ${containerNames[i]}"
   status=$(kubectl get build go-unit-test -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
     echo "Waiting for ${containerNames[i]}";
