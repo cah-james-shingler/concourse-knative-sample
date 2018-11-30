@@ -1,11 +1,8 @@
 #!/bin/bash
 
-. knative-test/ci/tasks/setup.sh
+PODNAME=$(kubectl get build kaniko-build -ojsonpath='{.status.cluster.podName}')
 
-setup_kubectl
-
-PODNAME=kubectl get build kaniko-build -ojsonpath='{.status.cluster.podName}'
-
+echo "Pod name: $PODNAME"
 kubectl logs -f -p $PODNAME -c build-step-credential-initializer
 kubectl logs -f -p $PODNAME -c build-step-git-source
 kubectl logs -f -p $PODNAME -c build-step-build-and-push

@@ -39,14 +39,6 @@ jobs:
       ZONE: ((zone))
     input_mapping:
       app: helloworld-go
-  - task: watch-kaniko-build
-    image: kubectl
-    file: knative-test/ci/tasks/watch-kaniko-build.yml
-    params:
-      CONFIG: ((key))
-      CLUSTER_NAME: ((cluster))
-      PROJECT_NAME: ((project))
-      ZONE: ((zone))
     timeout: 10m
   - task: delete-build
     image: kubectl
