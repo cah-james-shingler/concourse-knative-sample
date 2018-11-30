@@ -12,4 +12,4 @@ params:
   BUILD_NAME:
 
 run:
-  path: knative-test/ci/tasks/knative-unit.sh
+  path: knative-test/ci/tasks/run-build.sh

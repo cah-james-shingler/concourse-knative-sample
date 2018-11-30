@@ -27,8 +27,8 @@ jobs:
   - get: knative-test
     trigger: true
   - get: kubectl
-  - task: knative-test-unit
-    file: knative-test/ci/tasks/knative-unit.yml
+  - task: knative-unit-test
+    file: knative-test/ci/tasks/run-build.yml
     image: kubectl
     params:
       CONFIG: ((key))
@@ -58,7 +58,7 @@ jobs:
   - get: kubectl
   - task: build-image
     image: kubectl
-    file: knative-test/ci/tasks/knative-unit.yml
+    file: knative-test/ci/tasks/run-build.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
@@ -76,6 +76,7 @@ jobs:
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
+      BUILD_NAME: kaniko-build
 
 - name: serve
   serial: true

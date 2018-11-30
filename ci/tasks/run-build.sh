@@ -21,7 +21,7 @@ echo "Build pod name: $PODNAME"
 containerNames=($(kubectl get po -l build.knative.dev/buildName=$BUILD_NAME -ojson | jq -r '.items[0].status.initContainerStatuses | values[].name'))
 
 for i in ${!containerNames[@]}; do
-  echo "container ${containerNames[i]}:"
+  echo -e "\ncontainer ${containerNames[i]}:"
   status=$(kubectl get build $BUILD_NAME -ojson | jq --arg index $i -r '.status.stepStates[$index | tonumber]' | jq 'keys[]');
   while [ status == "waiting" ]; do
     echo "Waiting for ${containerNames[i]}";
