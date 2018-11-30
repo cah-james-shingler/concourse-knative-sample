@@ -36,6 +36,7 @@ jobs:
       ZONE: ((zone))
 
 - name: build-image
+  serial: true
   plan:
   - get: knative-test
     trigger: true
@@ -56,6 +57,7 @@ jobs:
     timeout: 10m
     on_success:
       task: delete-build
+      image: kubectl
       file: knative-test/ci/tasks/delete-build.yml
       params:
         CONFIG: ((key))
@@ -67,6 +69,7 @@ jobs:
   #   file: knative-test/ci/tasks/delete-build.yml
 
 - name: serve
+  serial: true
   plan:
   - get: knative-test
     trigger: true

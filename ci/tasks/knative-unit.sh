@@ -14,7 +14,6 @@ kubectl apply -f knative-test/go-test-buildtemplate.yaml
 kubectl apply -f knative-test/go-run-test.yaml
 
 PODNAME=$(kubectl get build go-unit-test -ojsonpath='{.status.cluster.podName}')
-BUILDNAME=go-unit-test
 
 echo "Build pod name: $PODNAME"
 
@@ -30,7 +29,7 @@ for i in "${!containerNames[@]}"; do
   kubectl logs -f $PODNAME -c ${containerNames[i]}
 done
 
-status=$(kubectl get po -l build.knative.dev/buildName=$BUILDNAME -o=jsonpath='{..status.phase}')
+status=$(kubectl get po -l build.knative.dev/buildName=go-unit-test -o=jsonpath='{..status.phase}')
 
 if [ $status == "Succeeded" ]; then
   echo "Build $status."
