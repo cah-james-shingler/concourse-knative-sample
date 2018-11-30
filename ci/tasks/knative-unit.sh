@@ -32,8 +32,9 @@ done
 
 pod_status="Pending"
 
-while [ pod_status == "Pending" ] || [ pod_status == "Running" ] ; do
+while (( $pod_status == "Pending" || $pod_status == "Running" )) ; do
   pod_status=$(kubectl get po -l build.knative.dev/buildName=go-unit-test -o=jsonpath='{..status.phase}')
+  echo "pod_status=$pod_status"
   sleep 2
 done
 
