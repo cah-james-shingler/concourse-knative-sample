@@ -11,5 +11,5 @@ spec:
           container:
             image: docker.io/ddadlani/helloworld-go
             env:
-            - name: TARGET
-              value: "Go Sample v1"
+            - name: PORT
+              value: "8080"

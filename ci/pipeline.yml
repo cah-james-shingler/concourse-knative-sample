@@ -68,15 +68,16 @@ jobs:
     input_mapping:
       app: helloworld-go
     timeout: 10m
-  - task: delete-build
-    image: kubectl
-    file: knative-test/ci/tasks/delete-build.yml
-    params:
-      CONFIG: ((key))
-      CLUSTER_NAME: ((cluster))
-      PROJECT_NAME: ((project))
-      ZONE: ((zone))
-      BUILD_NAME: kaniko-build
+    ensure:
+      task: delete-build
+      image: kubectl
+      file: knative-test/ci/tasks/delete-build.yml
+      params:
+        CONFIG: ((key))
+        CLUSTER_NAME: ((cluster))
+        PROJECT_NAME: ((project))
+        ZONE: ((zone))
+        BUILD_NAME: kaniko-build
 
 - name: serve
   serial: true
