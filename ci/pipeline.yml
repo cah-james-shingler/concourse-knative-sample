@@ -26,6 +26,8 @@ jobs:
   plan:
   - get: knative-test
     trigger: true
+  - get: helloworld-go
+    trigger: true
   - get: kubectl
   - task: knative-unit-test
     file: knative-test/ci/tasks/run-build.yml
@@ -53,7 +55,7 @@ jobs:
     trigger: true
     passed: [unit, knative-unit]
   - get: helloworld-go
-    passed: [unit]
+    passed: [unit, knative-unit]
     trigger: true
   - get: kubectl
   - task: build-image
