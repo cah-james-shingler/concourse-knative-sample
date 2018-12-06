@@ -1,9 +1,9 @@
 ---
 resources:
-- name: knative-test
+- name: knative-deployment
   type: git
   check_every: 10s
-  source: {uri: "https://github.com/ddadlani/knative-test"}
+  source: {uri: "https://github.com/ddadlani/concourse-knative-sample"}
 - name: helloworld-go
   type: git
   check_every: 10s
@@ -13,24 +13,24 @@ resources:
   source: {repository: ddadlani/kubectl}
 
 jobs:
-- name: unit
+- name: test-suite-unit
   plan:
-  - get: knative-test
+  - get: knative-deployment
     trigger: true
   - get: helloworld-go
     trigger: true
   - task: test-unit
-    file: knative-test/ci/tasks/test-unit.yml
+    file: knative-deployment/ci/tasks/test-unit.yml
 
-- name: knative-unit
+- name: test-suite-integration
   plan:
-  - get: knative-test
+  - get: knative-deployment
     trigger: true
   - get: helloworld-go
     trigger: true
   - get: kubectl
   - task: knative-unit-test
-    file: knative-test/ci/tasks/run-build.yml
+    file: knative-deployment/ci/tasks/run-build.yml
     image: kubectl
     params:
       CONFIG: ((key))
@@ -38,29 +38,29 @@ jobs:
       PROJECT_NAME: ((project))
       ZONE: ((zone))
       BUILD_NAME: go-unit-test
-  - task: delete-build
-    image: kubectl
-    file: knative-test/ci/tasks/delete-build.yml
-    params:
-      CONFIG: ((key))
-      CLUSTER_NAME: ((cluster))
-      PROJECT_NAME: ((project))
-      ZONE: ((zone))
-      BUILD_NAME: go-unit-test
+    ensure: delete-build
+      image: kubectl
+      file: knative-deployment/ci/tasks/delete-build.yml
+      params:
+        CONFIG: ((key))
+        CLUSTER_NAME: ((cluster))
+        PROJECT_NAME: ((project))
+        ZONE: ((zone))
+        BUILD_NAME: go-unit-test
 
 - name: build-image
   serial: true
   plan:
-  - get: knative-test
+  - get: knative-deployment
     trigger: true
-    passed: [unit, knative-unit]
+    passed: [test-suite-unit, test-suite-integration]
   - get: helloworld-go
-    passed: [unit, knative-unit]
+    passed: [test-suite-unit, test-suite-integration]
     trigger: true
   - get: kubectl
   - task: build-image
     image: kubectl
-    file: knative-test/ci/tasks/run-build.yml
+    file: knative-deployment/ci/tasks/run-build.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
@@ -73,7 +73,7 @@ jobs:
     ensure:
       task: delete-build
       image: kubectl
-      file: knative-test/ci/tasks/delete-build.yml
+      file: knative-deployment/ci/tasks/delete-build.yml
       params:
         CONFIG: ((key))
         CLUSTER_NAME: ((cluster))
@@ -84,7 +84,7 @@ jobs:
 - name: serve
   serial: true
   plan:
-  - get: knative-test
+  - get: knative-deployment
     passed: [build-image]
     trigger: true
   - get: helloworld-go
@@ -92,7 +92,8 @@ jobs:
     trigger: true
   - get: kubectl
   - task: serve-hello
-    file: knative-test/ci/tasks/serve.yml
+    image: kubectl
+    file: knative-deployment/ci/tasks/serve.yml
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))

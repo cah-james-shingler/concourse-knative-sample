@@ -2,11 +2,14 @@
 
 set +x
 
-echo $CONFIG > key.json
-gcloud auth activate-service-account --key-file=key.json --quiet
-gcloud config set project $PROJECT_NAME
-gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
+. knative-deployment/ci/tasks/setup.sh
 
-kubectl version
+setup_kubectl
+# echo $CONFIG > key.json
+# gcloud auth activate-service-account --key-file=key.json --quiet
+# gcloud config set project $PROJECT_NAME
+# gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
 
-kubectl apply -f knative-test/service.yaml
+# kubectl version
+
+kubectl apply -f knative-deployment/service.yaml

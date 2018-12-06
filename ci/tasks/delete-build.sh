@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. knative-test/ci/tasks/setup.sh
+. knative-deployment/ci/tasks/setup.sh
 
 setup_kubectl
 

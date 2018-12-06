@@ -2,7 +2,7 @@
 platform: linux
 
 inputs:
-  - name: knative-test
+  - name: knative-deployment
 
 params:
   CONFIG:
@@ -11,4 +11,4 @@ params:
   ZONE:
 
 run:
-  path: knative-test/ci/tasks/serve.sh
+  path: knative-deployment/ci/tasks/serve.sh

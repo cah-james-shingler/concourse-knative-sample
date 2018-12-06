@@ -9,10 +9,10 @@ image_resource:
 
 
 inputs:
-  - name: knative-test
+  - name: knative-deployment
   - name: helloworld-go
 
 params:
 
 run:
-  path: knative-test/ci/tasks/test-unit.sh
+  path: knative-deployment/ci/tasks/test-unit.sh

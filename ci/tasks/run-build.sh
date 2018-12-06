@@ -1,16 +1,18 @@
 #!/bin/bash
 
-echo "Setting up kubectl to point to cluster '$CLUSTER_NAME'"
-echo $CONFIG > key.json
+# echo "Setting up kubectl to point to cluster '$CLUSTER_NAME'"
+# echo $CONFIG > key.json
 
-gcloud auth activate-service-account --key-file=key.json --quiet
+# gcloud auth activate-service-account --key-file=key.json --quiet
 
-gcloud config set project $PROJECT_NAME
+# gcloud config set project $PROJECT_NAME
 
-gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
+# gcloud container clusters get-credentials $CLUSTER_NAME --zone=$ZONE
+. knative-deployment/ci/tasks/setup.sh
+setup_kubectl
 
 echo "Creating new test build"
-kubectl apply -f knative-test/$BUILD_NAME.yaml
+kubectl apply -f knative-deployment/$BUILD_NAME.yaml
 
 sleep 5
 

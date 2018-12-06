@@ -2,7 +2,7 @@
 platform: linux
 
 inputs:
-  - name: knative-test
+  - name: knative-deployment
 
 params:
   CONFIG:
@@ -12,4 +12,4 @@ params:
   BUILD_NAME:
 
 run:
-  path: knative-test/ci/tasks/run-build.sh
+  path: knative-deployment/ci/tasks/run-build.sh
