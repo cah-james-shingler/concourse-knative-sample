@@ -1,2 +1,2 @@
 # concourse-knative-sample
-A repository for me to play around with deploying apps using knative.
+A sample repository to showcase using Concourse as a CI tool for an app deployed on Knative. Used for a talk at CF Day North America 2018.
