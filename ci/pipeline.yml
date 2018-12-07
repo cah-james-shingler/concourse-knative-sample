@@ -43,7 +43,7 @@ jobs:
         ZONE: ((zone))
         BUILD_NAME: go-unit-test
 
-- name: build-image
+- name: build-and-upload-image
   serial: true
   plan:
   - get: knative-deployment
@@ -73,14 +73,14 @@ jobs:
         ZONE: ((zone))
         BUILD_NAME: kaniko-build
 
-- name: serve
+- name: serve-app
   serial: true
   plan:
   - get: knative-deployment
-    passed: [build-image]
+    passed: [build-and-upload-image]
     trigger: true
   - get: helloworld-go
-    passed: [build-image]
+    passed: [build-and-upload-image]
     trigger: true
   - task: serve-hello
     file: knative-deployment/ci/tasks/serve.yml
