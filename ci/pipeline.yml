@@ -8,9 +8,6 @@ resources:
   type: git
   check_every: 10s
   source: {uri: "https://github.com/ddadlani/helloworld-go"}
-- name: kubectl
-  type: docker-image
-  source: {repository: ddadlani/kubectl}
 
 jobs:
 - name: test-suite-unit
@@ -85,9 +82,7 @@ jobs:
   - get: helloworld-go
     passed: [build-image]
     trigger: true
-  - get: kubectl
   - task: serve-hello
-    image: kubectl
     file: knative-deployment/ci/tasks/serve.yml
     params:
       CONFIG: ((key))
