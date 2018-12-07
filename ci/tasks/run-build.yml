@@ -1,6 +1,10 @@
 ---
 platform: linux
 
+image_resource:
+    type: docker-image
+    source: ddadlani/kubectl
+
 inputs:
   - name: knative-deployment
 

@@ -28,17 +28,16 @@ jobs:
     trigger: true
   - get: helloworld-go
     trigger: true
-  - get: kubectl
   - task: knative-unit-test
     file: knative-deployment/ci/tasks/run-build.yml
-    image: kubectl
     params:
       CONFIG: ((key))
       CLUSTER_NAME: ((cluster))
       PROJECT_NAME: ((project))
       ZONE: ((zone))
       BUILD_NAME: go-unit-test
-    ensure: delete-build
+    ensure:
+      task: delete-build
       image: kubectl
       file: knative-deployment/ci/tasks/delete-build.yml
       params:
