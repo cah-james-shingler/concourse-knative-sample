@@ -3,7 +3,8 @@ platform: linux
 
 image_resource:
     type: docker-image
-    source: ddadlani/kubectl
+    source:
+      repository: ddadlani/kubectl
 
 inputs:
   - name: knative-deployment

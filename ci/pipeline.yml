@@ -38,7 +38,6 @@ jobs:
       BUILD_NAME: go-unit-test
     ensure:
       task: delete-build
-      image: kubectl
       file: knative-deployment/ci/tasks/delete-build.yml
       params:
         CONFIG: ((key))
@@ -56,9 +55,7 @@ jobs:
   - get: helloworld-go
     passed: [test-suite-unit, test-suite-integration]
     trigger: true
-  - get: kubectl
   - task: build-image
-    image: kubectl
     file: knative-deployment/ci/tasks/run-build.yml
     params:
       CONFIG: ((key))
@@ -71,7 +68,6 @@ jobs:
     timeout: 10m
     ensure:
       task: delete-build
-      image: kubectl
       file: knative-deployment/ci/tasks/delete-build.yml
       params:
         CONFIG: ((key))
