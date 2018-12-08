@@ -9,8 +9,7 @@ spec:
       revisionTemplate:
         spec:
           container:
-            image: docker.io/ddadlani/helloworld-go
-            imagePullPolicy: Always
+            image: docker.io/ddadlani/helloworld-go:latest
             env:
             - name: PORT
               value: "8080"
