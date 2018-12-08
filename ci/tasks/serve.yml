@@ -8,6 +8,7 @@ image_resource:
 
 inputs:
   - name: knative-deployment
+  - name: helloworld-go
 
 params:
   CONFIG:
